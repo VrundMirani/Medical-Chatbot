@@ -27,10 +27,23 @@ load_dotenv(PROJECT_ROOT / ".env")
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 11 * 1024 * 1024
 
+
+@app.errorhandler(413)
+def handle_request_too_large(_error):
+    """Return a consistent JSON response for oversized requests."""
+    return jsonify({
+        "error": "Request is too large. The maximum request size is 11 MiB."
+    }), 413
+
+
 @app.before_request
 def assign_request_id():
-    """Assign a unique identifier to each incoming request."""
+    """Assign a request ID and reject oversized requests early."""
     g.request_id = str(uuid.uuid4())
+
+    max_size = app.config["MAX_CONTENT_LENGTH"]
+    if request.content_length is not None and request.content_length > max_size:
+        return handle_request_too_large(None)
 
 
 @app.after_request

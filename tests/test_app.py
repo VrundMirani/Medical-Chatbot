@@ -63,6 +63,18 @@ def test_readiness_reports_initialized_rag(client, monkeypatch):
     }
 
 
+def test_oversized_request_returns_json_error(client):
+    response = client.post(
+        "/chat",
+        data=b"x" * (11 * 1024 * 1024 + 1),
+        content_type="application/octet-stream",
+    )
+
+    assert response.status_code == 413
+    assert response.is_json
+    assert "too large" in response.get_json()["error"].lower()
+
+
 # --------------------------------------------------
 # Chat input validation tests
 # --------------------------------------------------
