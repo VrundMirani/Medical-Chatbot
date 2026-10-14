@@ -6,6 +6,7 @@ from pathlib import Path
 
 from flask import Flask, g, jsonify, render_template, request
 from pypdf import PdfReader
+from pypdf.errors import PdfReadError
 
 
 from dotenv import load_dotenv
@@ -230,7 +231,12 @@ def analyze_paper():
 
     try:
         reader = PdfReader(io.BytesIO(file_bytes))
+    except PdfReadError:
+        return jsonify({
+            "error": "The uploaded PDF is malformed or unreadable."
+        }), 400
 
+    try:
         if reader.is_encrypted:
             return jsonify({
                 "error": "Password-protected PDFs are not supported."

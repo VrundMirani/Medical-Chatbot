@@ -260,6 +260,26 @@ def test_analyze_paper_rejects_more_than_20_pages(client, monkeypatch):
     assert "20 pages" in response.get_json()["error"]
 
 
+
+def test_analyze_paper_rejects_malformed_pdf(client, monkeypatch):
+    from pypdf.errors import PdfReadError
+
+    monkeypatch.setattr(medibot, "rag_chain", object())
+
+    def raise_pdf_read_error(stream):
+        raise PdfReadError("Malformed PDF")
+
+    monkeypatch.setattr(medibot, "PdfReader", raise_pdf_read_error)
+
+    response = client.post(
+        "/analyze-paper",
+        data={"paper": (BytesIO(b"%PDF-1.4 malformed content"), "study.pdf")},
+        content_type="multipart/form-data",
+    )
+
+    assert response.status_code == 400
+    assert "malformed or unreadable" in response.get_json()["error"]
+
 def test_analyze_paper_returns_structured_summary(client, monkeypatch):
     monkeypatch.setattr(medibot, "rag_chain", object())
 
