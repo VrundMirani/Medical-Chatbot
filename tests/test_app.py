@@ -209,6 +209,19 @@ def test_analyze_paper_rejects_non_pdf(client, monkeypatch):
     assert "PDF" in response.get_json()["error"]
 
 
+def test_analyze_paper_rejects_invalid_pdf_signature(client, monkeypatch):
+    monkeypatch.setattr(medibot, "rag_chain", object())
+
+    response = client.post(
+        "/analyze-paper",
+        data={"paper": (BytesIO(b"this is not a PDF"), "study.pdf")},
+        content_type="multipart/form-data",
+    )
+
+    assert response.status_code == 400
+    assert "valid PDF" in response.get_json()["error"]
+
+
 def test_analyze_paper_rejects_more_than_20_pages(client, monkeypatch):
     monkeypatch.setattr(medibot, "rag_chain", object())
 

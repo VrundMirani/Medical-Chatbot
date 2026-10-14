@@ -210,6 +210,11 @@ def analyze_paper():
     if len(file_bytes) > 10 * 1024 * 1024:
         return jsonify({"error": "The PDF must be 10 MB or smaller."}), 413
 
+    if not file_bytes.startswith(b"%PDF-"):
+        return jsonify({
+            "error": "The uploaded file does not appear to be a valid PDF."
+        }), 400
+
     try:
         reader = PdfReader(io.BytesIO(file_bytes))
 
