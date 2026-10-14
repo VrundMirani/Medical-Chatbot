@@ -218,3 +218,15 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Medibot local medical data and private configuration
+data/
+.streamlit/secrets.toml
+
+
+# Local backups and development artifacts
+*.backup
+source_inspection.txt
+flask_stderr.log
+flask_stdout.log
+.ipynb_checkpoints/

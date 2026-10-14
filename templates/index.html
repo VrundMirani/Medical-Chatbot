@@ -1,0 +1,136 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f9fc">
+    <meta name="description" content="Medibot provides educational medical information from a medical reference library.">
+    <title>Medibot | Medical Information Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a class="brand" href="/">
+                <span class="brand-icon">+</span>
+                <span>
+                    <strong>Medibot</strong>
+                    <small>Medical Assistant</small>
+                </span>
+            </a>
+
+            <div class="sidebar-section">
+                <p class="section-label">YOUR ASSISTANT</p>
+                <div class="sidebar-item active">
+                    <span>✳</span>
+                    <span>Medical Q&amp;A</span>
+                </div>
+                <div class="sidebar-note">
+                    Ask questions about medical concepts using the connected reference library.
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="status-dot"></div>
+                <span>Reference-based assistance</span>
+            </div>
+        </aside>
+
+        <main class="main-panel">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">MEDICAL KNOWLEDGE</p>
+                    <h1>Medical Information Assistant</h1>
+                </div>
+                <div class="header-badge">
+                    <span class="status-dot"></span>
+                    Educational use
+                </div>
+            </header>
+
+            <section class="chat-layout">
+                <div class="welcome" id="welcome">
+                    <div class="welcome-icon">✚</div>
+                    <p class="eyebrow">WELCOME TO MEDIBOT</p>
+                    <h2>How can I help you<br>understand a medical topic?</h2>
+                    <p class="welcome-description">
+                        Ask a question in your own words. Answers are generated using
+                        retrieved passages from the connected medical reference.
+                    </p>
+
+                    <div class="suggestion-grid">
+                        <button class="suggestion" type="button"
+                                data-question="What are acromegaly and gigantism?">
+                            <span class="suggestion-icon">↗</span>
+                            <span>
+                                <strong>Acromegaly and gigantism</strong>
+                                <small>Understand these growth disorders</small>
+                            </span>
+                        </button>
+
+                        <button class="suggestion" type="button"
+                                data-question="What is the role of the pituitary gland?">
+                            <span class="suggestion-icon">↗</span>
+                            <span>
+                                <strong>The pituitary gland</strong>
+                                <small>Explore its role in the body</small>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="messages" class="messages" aria-live="polite"></div>
+
+                <div id="error-message" class="error-message" role="alert" hidden></div>
+
+                <section class="research-lab" aria-labelledby="research-title">
+                    <div class="research-heading">
+                        <p class="eyebrow">RESEARCH WORKSPACE</p>
+                        <h2 id="research-title">Medical Research Lab</h2>
+                        <p>Explore a text-based medical research PDF with a structured AI summary.</p>
+                    </div>
+                    <form id="paper-form">
+                        <label for="paper-file">Choose a research paper (PDF, up to 10 MB and 20 pages)</label>
+                        <input id="paper-file" name="paper" type="file"
+                               accept=".pdf,application/pdf" required>
+                        <button id="analyze-button" type="submit">Analyze paper</button>
+                    </form>
+                    <p id="paper-status" role="status" aria-live="polite" hidden></p>
+                    <section id="paper-result" class="paper-result" hidden>
+                        <h3 id="paper-result-title">Analysis results</h3>
+                        <pre id="paper-summary"></pre>
+                        <p id="paper-disclaimer" class="evidence-note"></p>
+                    </section>
+                </section>
+
+                <form id="chat-form" class="composer">
+                    <label class="sr-only" for="question">Your medical question</label>
+                    <textarea
+                        id="question"
+                        name="question"
+                        rows="1"
+                        maxlength="2000"
+                        placeholder="Ask a medical question..."
+                        required></textarea>
+                    <button id="send-button" type="submit" aria-label="Send question">
+                        <span>Send</span>
+                        <span aria-hidden="true">↑</span>
+                    </button>
+                    <p class="composer-hint">Press Enter to send · Shift + Enter for a new line</p>
+                </form>
+
+                <footer class="medical-disclaimer">
+                    <strong>Important:</strong> Medibot provides educational information only.
+                    It cannot diagnose conditions or prescribe treatment. Consult a qualified
+                    healthcare professional for personal medical concerns. Seek emergency care
+                    for potentially life-threatening symptoms.
+                </footer>
+            </section>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</body>
+</html>
+```
