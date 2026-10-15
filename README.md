@@ -51,7 +51,7 @@ It is designed to help users explore medical concepts and understand medical res
 ### 1. Clone the repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/VrundMirani/Medical-Chatbot.git
 cd Medical-Chatbot
 ```
 
